@@ -1,106 +1,75 @@
-# User-Authentication-system
-A secure, RESTful authentication API built using Node.js, Express.js, and MongoDB.
-This project provides user registration, login, JWT-based authentication, and role-based access control.
+# User Authentication System
 
-## ⚙️ Tech Stack
+A simple full-stack user registration system with React frontend and Node.js backend using MongoDB.
 
-- **Backend:** Node.js, Express.js
-- **Database:** MongoDB Atlas
-- **Authentication:** JWT, bcrypt
+## Features
+- User registration with name, email, and password
+- Password hashing with bcrypt
+- REST API with Express
+- MongoDB database with Mongoose
+- Responsive React signup form
 
-Email Service: NodeMailer
+## Tech Stack
+- **Frontend:** React, CSS
+- **Backend:** Node.js, Express, MongoDB, Mongoose
+- **Authentication:** bcrypt, JWT
 
-Deployment: Render (Backend), Netlify (Frontend Optional)
+## Setup
 
-🧩 Features
+### Backend
+1. Install dependencies:
+- cd backend
+- npm install
 
-User Registration & Login
+2. Create `.env` with:
+- PORT=5000
+- MONGO_URI=your_mongodb_connection_string
+- JWT_SECRET=your_secret_key
 
-Password Reset via Email
-
-JWT Token-based Authentication
-
-Role-Based Access Control (User/Admin)
-
-MongoDB Integration for Secure Data Storage
-
-REST API tested with Postman
-
-📁 Folder Structure
-backend/      → Node.js source code
-database/     → Exported database or SQL file
-docs/         → All project phase reports
-output/       → Screenshots and demo images
-
-🧰 Setup Instructions
-
-Clone the repository:
-
-git clone https://github.com/<your-username>/user-authentication-system.git
-cd user-authentication-system/backend
+3. Run server:
+- npm run start
 
 
-Install dependencies:
+### Frontend
+1. Install dependencies:
+- cd frontend
+- npm install
 
-npm install
-
-
-Configure environment variables:
-
-cp .env.example .env
-
-
-Fill in the following fields:
-
-PORT=5000
-MONGO_URI=your_mongodb_connection
-JWT_SECRET=your_secret_key
-EMAIL_USER=your_email@gmail.com
-EMAIL_PASS=your_app_password
+2. Run app:
+- npm start
 
 
-Start the server:
+## Usage
+- Register users via the React form at `http://localhost:3000`.
+- Form data submits to backend API at `http://localhost:5000/api/register`.
 
-npm run dev
+## Example Register Component
+import React, { useState } from "react";
 
+function Register() {
+const [form, setForm] = useState({ name: "", email: "", password: "" });
 
-Test the API:
+const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-Register: POST /api/auth/register
+const handleSubmit = async (e) => {
+e.preventDefault();
+const res = await fetch("http://localhost:5000/api/register", {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify(form),
+});
+if (res.ok) alert("Registration successful!");
+else alert("Registration failed");
+};
 
-Login: POST /api/auth/login
-
-Get Users (Admin): GET /api/users
-
-🧪 Example API Responses
-
-Register
-
-POST /api/auth/register
-{
-  "name": "Alice",
-  "email": "alice@mail.com",
-  "password": "StrongPass123"
+return (
+<form onSubmit={handleSubmit}>
+<input name="name" placeholder="Name" onChange={handleChange} required />
+<input name="email" type="email" placeholder="Email" onChange={handleChange} required />
+<input name="password" type="password" placeholder="Password" onChange={handleChange} required />
+<button type="submit">Register</button>
+</form>
+);
 }
 
-
-Login Response
-
-{
-  "msg": "Login successful",
-  "token": "eyJhbGciOiJIUzI1NiIs..."
-}
-
-🧑‍💻 Developer Info
-
-Developer: Your Full Name
-
-College: Government College of Engineering, Bodi
-
-Department: Computer Science and Engineering
-
-🌐 Live Demo
-
-Backend API: https://your-api.onrender.com
-
-Frontend (Optional): https://yourfrontend.netlify.app
+export default Register;
